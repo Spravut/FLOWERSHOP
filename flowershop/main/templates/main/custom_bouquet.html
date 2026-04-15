@@ -1,0 +1,314 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Авторский букет - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Авторский букет</h1>
+        <p class="poetic-subtitle">
+            <strong>Уникальная композиция созданная специально для вас</strong><br>
+            Расскажите нам о вашей мечте
+        </p>
+    </div>
+</section>
+
+<!-- Philosophy Section -->
+<section class="philosophy-section">
+    <div class="container">
+        <h2>Создайте свой идеальный букет</h2>
+        <p class="philosophy-text">
+            Наши флористы создадут для вас уникальную композицию, которая идеально передаст ваши чувства и эмоции. 
+            Каждый авторский букет — это маленькое произведение искусства, созданное с душой и вниманием к деталям.
+        </p>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Как это работает</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">📝</div>
+                <h3>Заполните заявку</h3>
+                <p>Расскажите о ваших пожеланиях: повод, любимые цветы, цветовая гамма и бюджет. Чем подробнее — тем лучше!</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">💬</div>
+                <h3>Консультация флориста</h3>
+                <p>Мы свяжемся с вами для уточнения деталей. Обсудим идеи, предложим варианты и согласуем финальную концепцию.</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🎨</div>
+                <h3>Создание букета</h3>
+                <p>Наш флорист воплощает вашу идею в жизнь, подбирая самые свежие цветы и создавая уникальную композицию.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Examples Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Примеры авторских работ</h2>
+        <p class="section-intro">Каждый букет — это уникальная история, рассказанная на языке цветов</p>
+        
+        <div class="mood-grid">
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('https://i.pinimg.com/736x/5e/06/18/5e0618bf35f76b984d8ce6b0690062e7.jpg');">
+                <div class="mood-content">
+                    <h4>Романтический набор</h4>
+                    <p>Красные розы, эвкалипт — классика признания в любви</p>
+                </div>
+            </div>
+            
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('https://i.pinimg.com/1200x/34/c5/3a/34c53a5330f2bde8054f97167c0b2025.jpg');">
+                <div class="mood-content">
+                    <h4>Весенняя свежесть</h4>
+                    <p>Тюльпаны, гипсофила — лёгкость и пробуждение</p>
+                </div>
+            </div>
+            
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('https://i.pinimg.com/736x/3e/87/56/3e87563699a8742c5ea9646756a3eaf8.jpg');">
+                <div class="mood-content">
+                    <h4>Элегантная классика</h4>
+                    <p>Белые лилии, орхидеи — изысканность и утончённость</p>
+                </div>
+            </div>
+            
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('https://i.pinimg.com/1200x/ce/30/e5/ce30e5112b209a6fc789917e88d09edd.jpg');">
+                <div class="mood-content">
+                    <h4>Осеннее настроение</h4>
+                    <p>Хризантемы, сухоцветы, ягоды — тепло и уют</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Form Section -->
+<section class="florist-section" id="form">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Анна, главный флорист">
+                <div class="florist-name">
+                    <h4>Анна</h4>
+                    <p>Главный флорист и основатель</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">❝</div>
+                <h2>Опишите вашу мечту</h2>
+                <blockquote>
+                    "Для меня авторский букет — это диалог, в котором я слушаю не только ваши слова, 
+                    но и те эмоции, что стоят за ними. Доверьте мне вашу идею, и вместе мы создадим нечто волшебное."
+                </blockquote>
+                
+                <!-- Форма заявки -->
+                <form method="POST" action="{% url 'custom_bouquet' %}" class="order-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Повод для букета *</label>
+                            <select name="occasion" required>
+                                <option value="">Выберите повод</option>
+                                <option value="Свадьба">Свадьба</option>
+                                <option value="День рождения">День рождения</option>
+                                <option value="Романтический вечер">Романтический вечер</option>
+                                <option value="Юбилей">Юбилей</option>
+                                <option value="Просто так">Просто так</option>
+                                <option value="Другое">Другое</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Бюджет (₽) *</label>
+                            <input type="number" name="budget" required placeholder="от 1000 ₽" min="1000">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Предпочтительные цветы *</label>
+                        <input type="text" name="preferred_flowers" required placeholder="Розы, тюльпаны, орхидеи...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Цветовая гамма *</label>
+                        <input type="text" name="color_scheme" required placeholder="Красный, белый, розовый...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ваши пожелания *</label>
+                        <textarea name="wishes" required placeholder="Расскажите о том, каким вы видите идеальный букет..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" name="name" placeholder="Иван Иванов">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Телефон для связи *</label>
+                            <input type="tel" name="phone" required placeholder="+7 (999) 123-45-67">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="example@mail.ru">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Отправить заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>СОЗДАНИЕ ШЕДЕВРА</h2>
+        <h1>Готовы создать свой уникальный букет?</h1>
+        <div class="quick-buttons">
+            <a href="#form" class="quick-btn">Заполнить заявку</a>
+            <a href="{% url 'catalog' %}" class="quick-btn">Посмотреть каталог</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Форма заказа в florist-section */
+.order-form {
+    margin-top: 30px;
+    background: rgba(40, 60, 58, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(40, 60, 58, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--cream);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-teal);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .order-form {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-form {
+        padding: 15px;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .submit-btn {
+        padding: 14px;
+    }
+}
+</style>
+
+<script>
+// Плавный скролл к форме
+document.addEventListener('DOMContentLoaded', function() {
+    const ctaBtn = document.querySelector('a[href="#form"]');
+    if (ctaBtn) {
+        ctaBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const formSection = document.querySelector('#form');
+            if (formSection) {
+                formSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                setTimeout(() => {
+                    window.scrollBy(0, -80);
+                }, 600);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

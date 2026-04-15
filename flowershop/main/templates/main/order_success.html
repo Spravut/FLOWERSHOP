@@ -1,0 +1,109 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Заказ успешно оформлен | Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">{{ sticker }} Заказ принят {{ sticker }}</h1>
+        <p class="poetic-subtitle">
+            <strong>Спасибо за ваш выбор</strong> - Ваш заказ успешно оформлен<br>
+            Вскоре наш менеджер свяжется с вами для подтверждения
+        </p>
+        <div class="hero-buttons">
+            <a href="{% url 'home' %}" class="ethereal-button primary-btn">На главную</a>
+            <a href="{% url 'catalog' %}" class="ethereal-button secondary-btn">Посмотреть каталог</a>
+        </div>
+    </div>
+</section>
+
+<!-- Order Details Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Детали вашего заказа</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">🌹</div>
+                <h3>Цветок</h3>
+                <p>{{ flower_name }}</p>
+                <div class="mt-3" style="color: var(--gold); font-size: 1.2rem; font-weight: 500;">
+                    {{ price }} ₽ за штуку
+                </div>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🔢</div>
+                <h3>Количество</h3>
+                <p>{{ count }} штук</p>
+                <div class="mt-3" style="color: var(--gold); font-size: 1.2rem; font-weight: 500;">
+                    {{ count }} × {{ price }} ₽
+                </div>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">💰</div>
+                <h3>Итого</h3>
+                <p>Общая стоимость заказа</p>
+                <div class="mt-3" style="color: var(--gold); font-size: 1.8rem; font-weight: 600;">
+                    {{ total }} ₽
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Order Image Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Ваш будущий букет</h2>
+        <p class="section-intro">Именно такие цветы будут ждать вас в ближайшее время</p>
+        <div class="mood-grid">
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1563241527-3004b7be0ffd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                <div class="mood-content">
+                    <h4>{{ flower_name }}</h4>
+                    <p>{{ count }} штук · {{ total }} ₽</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Доставка: в течение 2 часов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Information Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Наш менеджер">
+                <div class="florist-name">
+                    <h4>Анна</h4>
+                    <p>Менеджер по работе с клиентами</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">💐</div>
+                <h2>Что дальше?</h2>
+                <blockquote>
+                    "Спасибо за ваш заказ! В течение <strong>15 минут</strong> наш менеджер свяжется с вами по указанному телефону для подтверждения деталей доставки. Мы уточним удобное время и адрес. Все наши цветы доставляются в специальных транспортных боксах, которые сохраняют свежесть и красоту букета. Если у вас есть особые пожелания к оформлению — обязательно сообщите об этом менеджеру!"
+                </blockquote>
+                <div class="mt-4">
+                    <a href="{% url 'home' %}" class="quick-btn">Вернуться на главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Menu Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>БЫСТРЫЕ ДЕЙСТВИЯ</h2>
+        <h1>Что вы хотите сделать?</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Посмотреть каталог</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Заказать авторский букет</a>
+            <a href="{% url 'popular' %}" class="quick-btn">Посмотреть популярное</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

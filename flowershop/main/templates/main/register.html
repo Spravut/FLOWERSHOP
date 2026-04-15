@@ -1,0 +1,153 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Регистрация · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Создайте мечту</h1>
+        <p class="poetic-subtitle">
+            <strong>Присоединяйтесь к нам</strong><br>
+            Начните ваше путешествие в мир изысканной флористики
+        </p>
+    </div>
+</section>
+
+<!-- Registration Form Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content" style="grid-template-columns: 1fr; max-width: 500px; margin: 0 auto;">
+            <div class="florist-quote" style="text-align: center;">
+                <div class="quote-decoration">🌷</div>
+                <h2>Создание аккаунта</h2>
+                
+                <!-- Messages -->
+                {% if messages %}
+                <div style="margin-bottom: 2rem;">
+                    {% for message in messages %}
+                    <div style="padding: 15px 20px; border-radius: 12px; margin-bottom: 10px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--dark-teal);">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Registration Form -->
+                <form method="post" class="order-form" style="text-align: left;">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label>Имя пользователя *</label>
+                        <input type="text" name="username" required placeholder="Придумайте имя пользователя">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email адрес *</label>
+                        <input type="email" name="email" required placeholder="Ваш email адрес">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Пароль *</label>
+                        <input type="password" name="password1" required placeholder="Придумайте пароль">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Подтверждение пароля *</label>
+                        <input type="password" name="password2" required placeholder="Повторите пароль">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Создать аккаунт
+                    </button>
+                    
+                    <p style="text-align: center; margin-top: 1.5rem; color: #666;">
+                        Уже есть аккаунт? 
+                        <a href="{% url 'login' %}" style="color: var(--gold); text-decoration: none; font-weight: 600;">
+                            Войдите здесь
+                        </a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>ДОБРО ПОЖАЛОВАТЬ</h2>
+        <h1>Станьте частью нашей истории</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Посмотреть каталог</a>
+            <a href="{% url 'home' %}" class="quick-btn">На главную</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Форма регистрации */
+.order-form {
+    margin-top: 30px;
+    background: rgba(40, 60, 58, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(40, 60, 58, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--cream);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-teal);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+a:hover {
+    color: var(--dark-teal) !important;
+}
+</style>
+{% endblock %}

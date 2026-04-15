@@ -1,0 +1,152 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Личный кабинет · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Личный кабинет</h1>
+        <p class="poetic-subtitle">
+            <strong>Добро пожаловать, {{ user.username }}!</strong><br>
+            Управляйте вашими заказами и настройками
+        </p>
+    </div>
+</section>
+
+<!-- Profile Info Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Ваш профиль</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">👤</div>
+                <h3>{{ user.username }}</h3>
+                <p>Имя пользователя</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">📧</div>
+                <h3>{{ user.email|default:"Не указан" }}</h3>
+                <p>Email</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">📅</div>
+                <h3>{{ user.date_joined|date:"d.m.Y" }}</h3>
+                <p>Дата регистрации</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Orders Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Последние заказы</h2>
+        <p class="section-intro">Ваши недавние покупки в Fleur de Rêve</p>
+        
+        {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <span class="order-number">Заказ #{{ order.id }}</span>
+                    <span class="order-status status-{{ order.status }}">
+                        {% if order.status == 'new' %}Новый
+                        {% elif order.status == 'processing' %}В обработке
+                        {% elif order.status == 'delivering' %}Доставляется
+                        {% elif order.status == 'completed' %}Выполнен
+                        {% else %}{{ order.status }}{% endif %}
+                    </span>
+                </div>
+                <div class="order-details">
+                    <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+                    <p><strong>Сумма:</strong> {{ order.total_price }} ₽</p>
+                    <p><strong>Адрес:</strong> {{ order.address|truncatewords:5 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'order_history' %}" class="quick-btn" style="display: inline-block;">Все заказы</a>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 3rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📦</div>
+            <h3 style="color: var(--dark-teal); font-family: 'Cormorant Garamond', serif;">У вас пока нет заказов</h3>
+            <p style="color: #666; margin-bottom: 1.5rem;">Самое время выбрать свой первый букет!</p>
+            <a href="{% url 'catalog' %}" class="quick-btn" style="display: inline-block;">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>БЫСТРЫЕ ДЕЙСТВИЯ</h2>
+        <h1>Что вы хотите сделать?</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Каталог</a>
+            <a href="{% url 'cart' %}" class="quick-btn">Корзина</a>
+            <a href="{% url 'order_history' %}" class="quick-btn">История заказов</a>
+            <a href="{% url 'logout' %}" class="quick-btn">Выйти</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.orders-list {
+    display: grid;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.order-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(40, 60, 58, 0.08);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.order-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.order-status {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-new { background: rgba(212, 175, 55, 0.2); color: #8B7355; }
+.status-processing { background: rgba(59, 130, 246, 0.2); color: #3B82F6; }
+.status-delivering { background: rgba(168, 85, 247, 0.2); color: #A855F7; }
+.status-completed { background: rgba(34, 197, 94, 0.2); color: #22C55E; }
+
+.order-details p {
+    margin: 8px 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.order-details strong {
+    color: var(--dark-teal);
+}
+</style>
+{% endblock %}
+

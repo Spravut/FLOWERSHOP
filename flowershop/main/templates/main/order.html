@@ -1,0 +1,112 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Заказ принят · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Заказ принят!</h1>
+        <p class="poetic-subtitle">
+            <strong>Благодарим за выбор Fleur de Rêve</strong><br>
+            Ваш букет уже готовится с любовью
+        </p>
+    </div>
+</section>
+
+<!-- Order Details Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content" style="grid-template-columns: 1fr; max-width: 600px; margin: 0 auto;">
+            <div class="florist-quote" style="text-align: center;">
+                <div class="quote-decoration">✨</div>
+                <h2>Детали вашего заказа</h2>
+                
+                <div class="order-details">
+                    <div class="order-row">
+                        <span class="order-label">Букет:</span>
+                        <span class="order-value">{{ flower_name }}</span>
+                    </div>
+                    <div class="order-row">
+                        <span class="order-label">Количество:</span>
+                        <span class="order-value">{{ count }} шт.</span>
+                    </div>
+                    <div class="order-row">
+                        <span class="order-label">Цена за штуку:</span>
+                        <span class="order-value">{{ price }} ₽</span>
+                    </div>
+                    <div class="order-row order-total">
+                        <span class="order-label">Итого:</span>
+                        <span class="order-value">{{ total }} ₽</span>
+                    </div>
+                </div>
+                
+                <blockquote style="margin-top: 2rem; font-size: 1rem;">
+                    Наш менеджер свяжется с вами в течение 15 минут для подтверждения заказа и уточнения деталей доставки.
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>СПАСИБО ЗА ЗАКАЗ</h2>
+        <h1>Ждём вас снова!</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'home' %}" class="quick-btn">На главную</a>
+            <a href="{% url 'catalog' %}" class="quick-btn">Заказать ещё</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.order-details {
+    background: rgba(40, 60, 58, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+    margin-top: 2rem;
+}
+
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.order-row:last-child {
+    border-bottom: none;
+}
+
+.order-label {
+    color: #666;
+    font-family: 'Inter', sans-serif;
+}
+
+.order-value {
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.order-total {
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 2px solid var(--gold);
+}
+
+.order-total .order-label,
+.order-total .order-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark-teal);
+}
+
+.order-total .order-value {
+    color: var(--gold);
+}
+</style>
+{% endblock %}

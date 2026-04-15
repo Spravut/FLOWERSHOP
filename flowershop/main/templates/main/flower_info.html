@@ -1,0 +1,109 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ flower_name }} · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('{{ flower_data.img }}') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">{{ flower_data.sticker }} {{ flower_name }}</h1>
+        <p class="poetic-subtitle">
+            <strong>{{ flower_data.desc }}</strong>
+        </p>
+    </div>
+</section>
+
+<!-- Product Details Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">{{ flower_name }}</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">{{ flower_data.sticker }}</div>
+                <h3>Цена</h3>
+                <p style="color: var(--gold); font-size: 2rem; font-weight: 600;">{{ flower_data.price }} ₽</p>
+                <p>за штуку</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🚚</div>
+                <h3>Доставка</h3>
+                <p>Бесплатная доставка по Москве при заказе от 3000 ₽</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">✨</div>
+                <h3>Качество</h3>
+                <p>Свежие цветы от проверенных поставщиков</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Image Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Галерея</h2>
+        <p class="section-intro">{{ flower_data.desc }}</p>
+        
+        <div class="mood-grid">
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('{{ flower_data.img }}'); grid-column: span 2;">
+                <div class="mood-content">
+                    <h4>{{ flower_name }}</h4>
+                    <p>{{ flower_data.price }} ₽ за штуку</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Наш флорист">
+                <div class="florist-name">
+                    <h4>Анна</h4>
+                    <p>Главный флорист</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">{{ flower_data.sticker }}</div>
+                <h2>Преимущества заказа</h2>
+                <blockquote>
+                    "Все наши цветы проходят строгий контроль качества. 
+                    Мы работаем только с проверенными поставщиками и гарантируем свежесть каждого букета. 
+                    Индивидуальная упаковка сохранит красоту цветов во время доставки."
+                </blockquote>
+                
+                <ul style="list-style: none; padding: 0; margin-top: 1.5rem;">
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(40, 60, 58, 0.1); display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--gold);">✓</span> Свежие цветы от проверенных поставщиков
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(40, 60, 58, 0.1); display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--gold);">✓</span> Бесплатная доставка по городу
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(40, 60, 58, 0.1); display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--gold);">✓</span> Индивидуальная упаковка
+                    </li>
+                    <li style="padding: 10px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="color: var(--gold);">✓</span> Консультация флориста
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>ЗАКАЗАТЬ {{ flower_name|upper }}</h2>
+        <h1>{{ flower_data.price }} ₽ за штуку</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Перейти в каталог</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Авторский букет</a>
+            <a href="{% url 'contacts' %}" class="quick-btn">Связаться с нами</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

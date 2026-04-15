@@ -1,0 +1,126 @@
+services:
+  nats:
+    image: nats:2.10-alpine
+    container_name: flowershop_nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    command: ["-js", "-m", "8222"]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  django:
+    build:
+      context: ./flowershop
+      dockerfile: Dockerfile
+    container_name: flowershop_django
+    ports:
+      - "8002:8000"
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=sqlite:///db.sqlite3
+      - NATS_URL=nats://nats:4222
+      - REVIEWS_SERVICE_URL=http://reviews-service:8000
+    volumes:
+      - ./flowershop:/app
+      - django_static:/app/staticfiles
+      - django_media:/app/media
+    depends_on:
+      nats:
+        condition: service_healthy
+      reviews-service:
+        condition: service_started
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput --clear &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  notification-db:
+    image: postgres:15-alpine
+    container_name: flowershop_notification_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notifications_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - notification_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  notification-service:
+    build:
+      context: ./notification-service2
+      dockerfile: dockerfile
+    container_name: flowershop_notification_service
+    ports:
+      - "8001:8000"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: notifications_db
+      DB_HOST: notification-db
+      DB_PORT: "5432"
+      NATS_URL: nats://nats:4222
+    volumes:
+      - ./notification-service2:/app
+    depends_on:
+      notification-db:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  reviews-db:
+    image: postgres:15
+    container_name: flowershop_reviews_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: reviews_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - reviews_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  reviews-service:
+    build:
+      context: ./docker-practice
+      dockerfile: Dockerfile
+    container_name: flowershop_reviews_service
+    ports:
+      - "8000:8000"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: reviews_db
+      DB_HOST: reviews-db
+      DB_PORT: "5432"
+    volumes:
+      - ./docker-practice:/app
+    depends_on:
+      reviews-db:
+        condition: service_healthy
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+volumes:
+  notification_postgres_data:
+  reviews_postgres_data:
+  django_static:
+  django_media:

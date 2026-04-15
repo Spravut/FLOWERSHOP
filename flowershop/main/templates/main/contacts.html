@@ -1,0 +1,237 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Контакты · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Контакты</h1>
+        <p class="poetic-subtitle">
+            <strong>Мы всегда рады общению</strong><br>
+            Свяжитесь с нами любым удобным способом
+        </p>
+    </div>
+</section>
+
+<!-- Philosophy Section -->
+<section class="philosophy-section">
+    <div class="container">
+        <h2>Свяжитесь с нами</h2>
+        <p class="philosophy-text">
+            Fleur de Rêve — это не просто цветочная мастерская, а пространство, где рождаются эмоции. 
+            Мы всегда готовы выслушать ваши пожелания и помочь создать идеальный букет для любого повода.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Methods Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Способы связи</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">📞</div>
+                <h3>Телефон</h3>
+                <p style="color: var(--gold); font-weight: 600; font-size: 1.3rem; margin-bottom: 0.5rem;">+7 (999) 123-45-67</p>
+                <p>Ежедневно с 9:00 до 21:00</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">📧</div>
+                <h3>Электронная почта</h3>
+                <p style="color: var(--gold); font-weight: 600; font-size: 1.2rem; margin-bottom: 0.5rem;">hello@fleur-dereve.ru</p>
+                <p>Ответим в течение 2 часов</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">📍</div>
+                <h3>Адрес мастерской</h3>
+                <p style="color: var(--gold); font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">Москва, ул. Цветочная, д. 15</p>
+                <p>Пн-Сб: 10:00-20:00, Вс: 11:00-19:00</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Working Hours Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Часы работы</h2>
+        <p class="section-intro">Мы работаем для вас каждый день</p>
+        
+        <div class="mood-grid">
+            <div class="mood-card" style="background: linear-gradient(135deg, var(--dark-teal), var(--deep-purple));">
+                <div class="mood-content">
+                    <h4>Понедельник — Пятница</h4>
+                    <p>9:00 — 23:00</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background: linear-gradient(135deg, var(--dark-teal), var(--deep-purple));">
+                <div class="mood-content">
+                    <h4>Суббота</h4>
+                    <p>10:00 — 21:00</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background: linear-gradient(135deg, var(--dark-teal), var(--deep-purple));">
+                <div class="mood-content">
+                    <h4>Воскресенье</h4>
+                    <p>11:00 — 20:00</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background: linear-gradient(135deg, #8B4513, #D2691E);">
+                <div class="mood-content">
+                    <h4>Срочный заказ</h4>
+                    <p>Работаем до 23:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Наша команда">
+                <div class="florist-name">
+                    <h4>Наша команда</h4>
+                    <p>Всегда на связи</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">💌</div>
+                <h2>Форма обратной связи</h2>
+                <blockquote style="margin-bottom: 2rem;">
+                    Напишите нам, и мы свяжемся с вами в ближайшее время. Расскажите о ваших пожеланиях — мы поможем создать идеальный букет.
+                </blockquote>
+                
+                <form class="order-form">
+                    <div class="form-group">
+                        <label>Ваше имя *</label>
+                        <input type="text" placeholder="Как к вам обращаться?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Телефон или email *</label>
+                        <input type="text" placeholder="Для обратной связи">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Сообщение *</label>
+                        <textarea placeholder="Расскажите о ваших пожеланиях..." rows="4"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Отправить сообщение
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="art-section" style="background: var(--cream);">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">✨</div>
+                <h3>Индивидуальный подход</h3>
+                <p>Учитываем все ваши пожелания для создания уникального букета, который точно передаст ваши чувства.</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🌸</div>
+                <h3>Качественные цветы</h3>
+                <p>Работаем только со свежими цветами от проверенных поставщиков из Голландии, Эквадора и Кении.</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🚚</div>
+                <h3>Быстрая доставка</h3>
+                <p>Доставляем букеты по Москве в течение 2-3 часов при срочном заказе. Работаем ежедневно.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>НАЙДИТЕ НАС</h2>
+        <h1>Москва, ул. Цветочная, д. 15</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Перейти в каталог</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Заказать авторский букет</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Форма обратной связи */
+.order-form {
+    margin-top: 30px;
+    background: rgba(40, 60, 58, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(40, 60, 58, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--cream);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-teal);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+</style>
+{% endblock %}

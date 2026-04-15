@@ -1,0 +1,99 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Уход за цветами - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Уход за цветами</h1>
+        <p class="poetic-subtitle">
+            <strong>Секреты долгой жизни букета</strong><br>
+            Наслаждайтесь красотой дольше
+        </p>
+    </div>
+</section>
+
+<!-- Philosophy Section -->
+<section class="philosophy-section">
+    <div class="container">
+        <h2>Как сохранить красоту</h2>
+        <p class="philosophy-text">
+            Каждый цветок — это живое существо, требующее заботы и внимания. 
+            Следуя простым рекомендациям наших флористов, вы сможете наслаждаться 
+            красотой букета значительно дольше.
+        </p>
+    </div>
+</section>
+
+<!-- Care Tips Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Советы по уходу</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">🌹</div>
+                <h3>Розы</h3>
+                <p>Подрезайте стебли под углом, меняйте воду каждые 2 дня, удаляйте нижние листья и ставьте в прохладное место вдали от солнца.</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🌷</div>
+                <h3>Тюльпаны</h3>
+                <p>Не ставьте на солнце, добавляйте в воду сахар, подрезайте стебли и используйте холодную воду для свежести.</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">🌺</div>
+                <h3>Орхидеи</h3>
+                <p>Поливайте 1 раз в неделю, обеспечьте рассеянный свет, не допускайте переувлажнения и подкармливайте специальным удобрением.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- General Tips Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Полезные советы</h2>
+        <p class="section-intro">Универсальные правила для любых цветов</p>
+        
+        <div class="mood-grid">
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5)), url('https://i.pinimg.com/736x/5e/06/18/5e0618bf35f76b984d8ce6b0690062e7.jpg');">
+                <div class="mood-content">
+                    <h4>Чистая ваза</h4>
+                    <p>Всегда используйте чистую вазу — бактерии сокращают жизнь цветов</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5)), url('https://i.pinimg.com/1200x/34/c5/3a/34c53a5330f2bde8054f97167c0b2025.jpg');">
+                <div class="mood-content">
+                    <h4>Удаляйте увядшее</h4>
+                    <p>Своевременно удаляйте увядшие цветы и листья из букета</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5)), url('https://i.pinimg.com/736x/3e/87/56/3e87563699a8742c5ea9646756a3eaf8.jpg');">
+                <div class="mood-content">
+                    <h4>Подальше от фруктов</h4>
+                    <p>Не ставьте цветы рядом с фруктами — они выделяют этилен</p>
+                </div>
+            </div>
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.5)), url('https://i.pinimg.com/1200x/ce/30/e5/ce30e5112b209a6fc789917e88d09edd.jpg');">
+                <div class="mood-content">
+                    <h4>Прохлада и тень</h4>
+                    <p>Избегайте сквозняков и прямых солнечных лучей</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>НУЖНА ПОМОЩЬ?</h2>
+        <h1>Мы всегда готовы помочь</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'contacts' %}" class="quick-btn">Связаться с нами</a>
+            <a href="{% url 'catalog' %}" class="quick-btn">Выбрать букет</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

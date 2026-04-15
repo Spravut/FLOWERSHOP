@@ -1,0 +1,351 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Оформление заказа · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Оформление заказа</h1>
+        <p class="poetic-subtitle">
+            <strong>Последний шаг к вашему букету</strong><br>
+            Заполните данные для доставки
+        </p>
+    </div>
+</section>
+
+<!-- Cart Summary Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Ваш заказ</h2>
+        <div class="cart-summary">
+            {% for item in cart_items %}
+            <div class="cart-summary-item">
+                <div class="item-info">
+                    <span class="item-name">{{ item.product.name }}</span>
+                    <span class="item-qty">× {{ item.quantity }}</span>
+                </div>
+                <span class="item-price">{{ item.product.price }} ₽</span>
+            </div>
+            {% endfor %}
+            <div class="cart-total-row">
+                <span>Итого к оплате:</span>
+                <span class="total-price">{{ total }} ₽</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Checkout Form Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="checkout-form-wrapper">
+            <form method="post" class="checkout-form">
+                {% csrf_token %}
+                
+                <div class="form-section">
+                    <h3>Контактные данные</h3>
+                    
+                    <div class="form-group">
+                        <label for="customer_name">Имя и фамилия</label>
+                        <input type="text" id="customer_name" name="customer_name" required 
+                               placeholder="Введите ваше имя">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" name="phone" required 
+                                   placeholder="+7 (___) ___-__-__">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="your@email.com">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Адрес доставки</h3>
+                    
+                    <div class="form-group">
+                        <label for="address">Полный адрес</label>
+                        <textarea id="address" name="address" required rows="3"
+                                  placeholder="Город, улица, дом, квартира, подъезд, этаж"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Время доставки</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="delivery_date">Дата доставки</label>
+                            <input type="date" id="delivery_date" name="delivery_date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="delivery_time">Время доставки</label>
+                            <select id="delivery_time" name="delivery_time" required>
+                                <option value="">Выберите время</option>
+                                <option value="9:00-12:00">9:00 - 12:00</option>
+                                <option value="12:00-15:00">12:00 - 15:00</option>
+                                <option value="15:00-18:00">15:00 - 18:00</option>
+                                <option value="18:00-21:00">18:00 - 21:00</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Оплата</h3>
+                    
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="online" checked>
+                            <span class="payment-card">
+                                <span class="payment-icon">💳</span>
+                                <span class="payment-name">Онлайн-карта</span>
+                            </span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cash">
+                            <span class="payment-card">
+                                <span class="payment-icon">💵</span>
+                                <span class="payment-name">При получении</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Дополнительно</h3>
+                    
+                    <div class="form-group">
+                        <label for="wishes">Пожелания к заказу</label>
+                        <textarea id="wishes" name="wishes" rows="3"
+                                  placeholder="Особые пожелания: текст открытки, аллергия на цветы и т.д."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="submit-btn">
+                        Подтвердить заказ на {{ total }} ₽
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>НУЖНА ПОМОЩЬ?</h2>
+        <h1>Мы всегда на связи</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'contacts' %}" class="quick-btn">Связаться с нами</a>
+            <a href="{% url 'delivery' %}" class="quick-btn">Информация о доставке</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.cart-summary {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.08);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.cart-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.item-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--dark-teal);
+}
+
+.item-qty {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.item-price {
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--dark-teal);
+}
+
+.total-price {
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.checkout-form-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.checkout-form {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.08);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.form-section {
+    margin-bottom: 35px;
+}
+
+.form-section h3 {
+    color: var(--dark-teal);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--gold);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(40, 60, 58, 0.15);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.payment-option {
+    cursor: pointer;
+}
+
+.payment-option input {
+    display: none;
+}
+
+.payment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    border: 2px solid rgba(40, 60, 58, 0.15);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.payment-option input:checked + .payment-card {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.payment-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.payment-name {
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.form-submit {
+    margin-top: 30px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+@media (max-width: 768px) {
+    .form-row,
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkout-form {
+        padding: 25px;
+    }
+}
+</style>
+{% endblock %}

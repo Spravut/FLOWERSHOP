@@ -1,0 +1,211 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Авторский букет - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="page-hero" style="background: linear-gradient(rgba(139, 115, 85, 0.8), rgba(107, 142, 107, 0.8)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover; padding: 120px 20px; text-align: center; color: white;">
+    <div class="hero-content">
+        <h1 style="font-size: 3.5em; margin-bottom: 20px; font-family: 'Playfair Display', serif; font-weight: 300;">Авторский букет</h1>
+        <p style="font-size: 1.3em; opacity: 0.9; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+            Уникальная композиция созданная специально для вас<br>
+            Расскажите нам о вашей мечте
+        </p>
+    </div>
+</section>
+
+<!-- Custom Bouquet Section -->
+<section class="custom-section" style="padding: 80px 20px; background: var(--background-color, #FAF5F0);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <div class="content-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;">
+            
+            <!-- Текст и форма -->
+            <div class="content-text">
+                <div class="intro-card framed-card" style="background: white; padding: 40px; margin-bottom: 40px;">
+                    <h2 style="color: var(--primary-color, #8B7355); font-size: 2.2em; margin-bottom: 20px; font-family: 'Playfair Display', serif;">Создайте свой идеальный букет</h2>
+                    <p style="color: var(--text-color, #5D4037); line-height: 1.6; font-size: 1.1em;">
+                        Наши флористы создадут для вас уникальную композицию, которая идеально передаст ваши чувства и эмоции. 
+                        Каждый авторский букет — это маленькое произведение искусства, созданное с душой.
+                    </p>
+                </div>
+                
+                <!-- Форма заказа -->
+                <form class="custom-order-form framed-card" style="background: white; padding: 40px;" method="post" action="{% url 'custom_bouquet' %}">
+                    {% csrf_token %}
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Повод для букета</label>
+                        <select name="occasion" class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required>
+                            <option value="Свадьба">Свадьба</option>
+                            <option value="День рождения">День рождения</option>
+                            <option value="Романтический вечер">Романтический вечер</option>
+                            <option value="Юбилей">Юбилей</option>
+                            <option value="Просто так">Просто так</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Предпочтительные цветы</label>
+                        <input type="text" name="preferred_flowers" placeholder="Розы, тюльпаны, орхидеи..." class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Цветовая гамма</label>
+                        <input type="text" name="color_scheme" placeholder="Красный, белый, розовый..." class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Бюджет</label>
+                        <input type="number" name="budget" placeholder="от 1000 ₽" class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required min="1000">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Ваше имя</label>
+                        <input type="text" name="name" placeholder="Как вас зовут?" class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Телефон для связи</label>
+                        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" class="form-input" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; transition: all 0.3s ease;" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <label style="display: block; margin-bottom: 8px; color: var(--text-color, #5D4037); font-weight: 500;">Ваши пожелания</label>
+                        <textarea name="wishes" placeholder="Расскажите о том, каким вы видите идеальный букет..." class="form-textarea" style="width: 100%; padding: 14px; border: 2px solid var(--accent-color, #D4AF8F); border-radius: 12px; font-size: 16px; background: white; min-height: 120px; resize: vertical; transition: all 0.3s ease;" required></textarea>
+                    </div>
+                    
+                    <button type="submit" style="width: 100%; padding: 16px; background: var(--primary-color, #8B7355); color: white; border: none; border-radius: 12px; font-size: 1.1em; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">
+                        Отправить заявку
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Боковая панель с примерами -->
+            <div class="content-sidebar">
+                <div class="inspiration-card framed-card" style="background: white; padding: 40px; margin-bottom: 30px;">
+                    <h3 style="color: var(--primary-color, #8B7355); font-size: 1.5em; margin-bottom: 20px; font-family: 'Playfair Display', serif;">Примеры авторских работ</h3>
+                    <div style="display: grid; gap: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--background-color, #FAF5F0); border-radius: 10px;">
+                            <div style="font-size: 2em;">🌹</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Романтический набор</div>
+                                <div style="font-size: 0.9em; color: #666;">Красные розы, эвкалипт</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--background-color, #FAF5F0); border-radius: 10px;">
+                            <div style="font-size: 2em;">🌼</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Весенняя свежесть</div>
+                                <div style="font-size: 0.9em; color: #666;">Тюльпаны, гипсофила</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px; padding: 15px; background: var(--background-color, #FAF5F0); border-radius: 10px;">
+                            <div style="font-size: 2em;">💐</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Элегантная классика</div>
+                                <div style="font-size: 0.9em; color: #666;">Белые лилии, орхидеи</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="process-card framed-card" style="background: white; padding: 40px;">
+                    <h3 style="color: var(--primary-color, #8B7355); font-size: 1.5em; margin-bottom: 20px; font-family: 'Playfair Display', serif;">Как это работает</h3>
+                    <div style="display: grid; gap: 15px;">
+                        <div style="display: flex; align-items: start; gap: 15px;">
+                            <div style="background: var(--primary-color, #8B7355); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Заполните заявку</div>
+                                <div style="font-size: 0.9em; color: #666;">Опишите ваши пожелания</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 15px;">
+                            <div style="background: var(--primary-color, #8B7355); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Консультация флориста</div>
+                                <div style="font-size: 0.9em; color: #666;">Обсудим детали и бюджет</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 15px;">
+                            <div style="background: var(--primary-color, #8B7355); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Создание букета</div>
+                                <div style="font-size: 0.9em; color: #666;">Флорист воплощает вашу идею</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 15px;">
+                            <div style="background: var(--primary-color, #8B7355); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--text-color, #5D4037);">Доставка</div>
+                                <div style="font-size: 0.9em; color: #666;">Привозим в удобное время</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+:root {
+    --primary-color: #8B7355;
+    --secondary-color: #6B8E6B;
+    --accent-color: #D4AF8F;
+    --text-color: #5D4037;
+    --background-color: #FAF5F0;
+}
+
+.framed-card {
+    border: 2px solid var(--accent-color);
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 6px 20px rgba(139, 115, 85, 0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.framed-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(139, 115, 85, 0.15);
+}
+
+.framed-card::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: -8px;
+    bottom: -8px;
+    border: 1px solid var(--accent-color);
+    border-radius: 20px;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.form-input:focus, .form-textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+}
+
+button:hover {
+    background: var(--secondary-color) !important;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .page-hero h1 {
+        font-size: 2.5em;
+    }
+    
+    .intro-card, .custom-order-form, .inspiration-card, .process-card {
+        padding: 30px !important;
+    }
+}
+</style>
+{% endblock %}

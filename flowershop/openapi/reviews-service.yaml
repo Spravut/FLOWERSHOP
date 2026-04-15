@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  title: Fleur de Rêve — Отзывы и рейтинги (Reviews & Ratings)
+  description: |
+    Микросервис отзывов и рейтингов для интернет-магазина цветов Fleur de Rêve.
+    Приём отзывов (о магазине и о товарах), модерация, средний рейтинг по магазину и по товару.
+    Подробная спецификация: docs/reviews-service-spec.md
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Локальный сервер для разработки
+
+paths:
+  #Список отзывов
+  /reviews:
+    get:
+      summary: Список отзывов
+      description: |
+        Возвращает список отзывов с фильтрами и пагинацией.
+        Пагинация по API_STANDARDS (limit/offset). Можно фильтровать по одобрению,
+        по товару, по рейтингу; сортировка по дате или по оценке.
+      parameters:
+        - name: limit
+          in: query
+          description: Количество элементов на странице (макс. 100)
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: offset
+          in: query
+          description: Смещение для пагинации
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: approved_only
+          in: query
+          description: true — только одобренные, false — только неодобренные, не передавать — все
+          schema:
+            type: boolean
+        - name: product_id
+          in: query
+          description: Только отзывы по товару с данным ID; не передавать — все отзывы
+          schema:
+            type: integer
+            example: 42
+        - name: min_rating
+          in: query
+          description: Только отзывы с оценкой не ниже (1–5)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: max_rating
+          in: query
+          description: Только отзывы с оценкой не выше (1–5)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: sort
+          in: query
+          description: Сортировка
+          schema:
+            type: string
+            enum:
+              - created_at_desc
+              - created_at_asc
+              - rating_desc
+              - rating_asc
+            default: created_at_desc
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewList'
+# создать отзыв
+    post:
+      summary: Создать отзыв
+      description: Добавляет новый отзыв. По умолчанию is_approved = false (требуется модерация).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCreate'
+      responses:
+        '201':
+          description: Отзыв успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  #Один отзыв
+  /reviews/{reviewId}:
+    get:
+      summary: Получить отзыв по ID
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          description: ID отзыва
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Отзыв найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Обновить отзыв (модерация)
+      description: Частичное обновление. В основном используется для смены is_approved (одобрить/отклонить).
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewUpdate'
+      responses:
+        '200':
+          description: Отзыв обновлён
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+# Удалить отзыв
+    delete:
+      summary: Удалить отзыв
+      description: Удаление отзыва (например, при модерации спама).
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Отзыв удалён
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ср. рейтинг
+  /ratings/summary:
+    get:
+      summary: Средний рейтинг и количество отзывов
+      description: |
+        Возвращает среднее арифметическое оценок и число отзывов.
+        Без product_id — рейтинг по магазину в целом; с product_id — по указанному товару.
+        По умолчанию учитываются только одобренные отзывы.
+      parameters:
+        - name: product_id
+          in: query
+          description: ID товара; не передавать — рейтинг по магазину
+          schema:
+            type: integer
+            nullable: true
+        - name: approved_only
+          in: query
+          description: Учитывать только одобренные отзывы при расчёте
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatingSummary'
+
+components:
+  schemas:
+    Review:
+      type: object
+      description: Отзыв (полная модель)
+      properties:
+        id:
+          type: integer
+          description: Уникальный идентификатор отзыва
+          example: 1
+        product_id:
+          type: integer
+          nullable: true
+          description: ID товара; null — отзыв о магазине в целом
+          example: 42
+        user_id:
+          type: integer
+          nullable: true
+          description: ID пользователя (если отзыв от авторизованного)
+          example: 5
+        name:
+          type: string
+          maxLength: 100
+          description: Имя автора
+          example: "Анна"
+        text:
+          type: string
+          description: Текст отзыва
+          example: "Отличный букет, всё доставили вовремя!"
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Оценка (звёзды)
+          example: 5
+        is_approved:
+          type: boolean
+          description: Одобрен ли отзыв модератором
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          description: Дата и время создания (ISO 8601)
+          example: "2025-03-01T14:30:00Z"
+      required:
+        - id
+        - name
+        - text
+        - rating
+        - is_approved
+        - created_at
+
+    ReviewCreate:
+      type: object
+      description: Данные для создания отзыва (без id, is_approved, created_at)
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          description: Имя автора
+          example: "Анна"
+        text:
+          type: string
+          description: Текст отзыва
+          example: "Отличный букет, всё доставили вовремя!"
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Оценка (1–5)
+          example: 5
+        product_id:
+          type: integer
+          nullable: true
+          description: ID товара; не передавать — отзыв о магазине
+          example: 42
+        user_id:
+          type: integer
+          nullable: true
+          description: ID пользователя в основной системе (опционально)
+      required:
+        - name
+        - text
+        - rating
+
+    ReviewUpdate:
+      type: object
+      description: Поля для частичного обновления (модерация)
+      properties:
+        is_approved:
+          type: boolean
+          description: Одобрить или отклонить отзыв
+          example: true
+      minProperties: 1
+
+    ReviewList:
+      type: object
+      description: Ответ списка отзывов с пагинацией
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+          description: Массив отзывов
+        total:
+          type: integer
+          description: Общее количество записей по заданным фильтрам (для постраничной навигации)
+          example: 87
+
+    RatingSummary:
+      type: object
+      description: Агрегат рейтинга — среднее и количество отзывов
+      properties:
+        average:
+          type: number
+          format: float
+          nullable: true
+          description: Средняя оценка (1–5); null если отзывов нет
+          example: 4.5
+        count:
+          type: integer
+          description: Количество учтённых отзывов
+          example: 120
+        product_id:
+          type: integer
+          nullable: true
+          description: ID товара; null — рейтинг по магазину
+          example: 42
+      required:
+        - average
+        - count
+
+    Error:
+      type: object
+      description: Стандартный формат ошибки (API_STANDARDS)
+      properties:
+        error:
+          type: string
+          description: Текстовое описание ошибки
+        code:
+          type: integer
+          description: HTTP-код ответа
+        details:
+          type: object
+          description: Дополнительные детали (например, ошибки по полям)
+      required:
+        - error
+        - code
+
+  responses:
+    BadRequest:
+      description: Некорректный запрос
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Некорректные данные"
+            code: 400
+    NotFound:
+      description: Ресурс не найден
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Отзыв не найден"
+            code: 404
+    ValidationError:
+      description: Ошибка валидации (пустые поля, rating не 1–5 и т.д.)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "Ошибка валидации"
+            code: 422
+            details:
+              text: "Поле не может быть пустым"
+              rating: "Должно быть от 1 до 5"

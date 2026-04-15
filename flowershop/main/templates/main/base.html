@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fleur de Rêve{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/moon-style.css' %}">
+</head>
+<body class="moon-theme">
+    <nav class="minimal-nav">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">Fleur de Rêve</a>
+            <div class="nav-links">
+                <a href="{% url 'catalog' %}">Коллекция</a>
+                <a href="{% url 'about' %}">О нас</a>
+                <a href="{% url 'popular' %}">Популярное</a>
+                <a href="{% url 'reviews' %}">Отзывы</a>
+                <a href="{% url 'custom' %}">Авторский букет</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'cart' %}">Корзина</a>
+                    <a href="{% url 'logout' %}">Выйти</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'register' %}">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="moon-footer">
+        <div class="footer-content">
+            <p>Fleur de Rêve · Цветок Мечты · 🌙</p>
+            <div class="footer-links">
+                <a href="{% url 'delivery' %}">Доставка</a>
+                <a href="{% url 'care' %}">Уход за цветами</a>
+                <a href="{% url 'contacts' %}">Контакты</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
+<script>
+// Плавное применение фильтров
+document.addEventListener('DOMContentLoaded', function() {
+    const filterForm = document.querySelector('.catalog-filters');
+    const filterInputs = filterForm?.querySelectorAll('input, select');
+    
+    if (filterInputs) {
+        filterInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                filterForm.closest('form').submit();
+            });
+        });
+    }
+    
+    // Анимация карточек при загрузке
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+});
+</script>

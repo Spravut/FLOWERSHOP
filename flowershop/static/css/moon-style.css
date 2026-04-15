@@ -1,0 +1,674 @@
+/* Moon Theme Styles for Fleur de Rêve */
+:root {
+    --dark-teal: #283C3A;
+    --burgundy: #582435;
+    --deep-purple: #45344F;
+    --cream: #fefaf5;
+    --light-text: #f8f4f0;
+    --light-gray: #e6e6e6;
+    --gold: #D4AF37;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.moon-theme {
+    background: var(--cream);
+    color: var(--dark-teal);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Navigation */
+.minimal-nav {
+    background: rgba(40, 60, 58, 0.95);
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--light-text);
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    color: var(--light-text);
+    text-decoration: none;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+}
+
+.nav-links a:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* Hero Section */
+.hero-section {
+    color: var(--cream);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 0;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 800px;
+    z-index: 2;
+    position: relative;
+}
+
+.poetic-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.poetic-subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.poetic-subtitle strong {
+    font-weight: 500;
+    color: var(--gold);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ethereal-button {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.primary-btn {
+    background: var(--gold);
+    color: var(--dark-teal);
+    border-color: var(--gold);
+}
+
+.primary-btn:hover {
+    background: transparent;
+    color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.secondary-btn {
+    background: transparent;
+    color: var(--cream);
+    border-color: var(--cream);
+}
+
+.secondary-btn:hover {
+    background: var(--cream);
+    color: var(--dark-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 244, 240, 0.2);
+}
+
+/* Philosophy Section */
+.philosophy-section {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: var(--cream);
+}
+
+.philosophy-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--dark-teal);
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+.philosophy-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Art Section */
+.art-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    text-align: center;
+}
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    color: var(--dark-teal);
+    text-align: center;
+    margin-bottom: 3rem;
+    font-weight: 400;
+}
+
+.art-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.art-item {
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.08);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.art-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--dark-teal), var(--gold));
+}
+
+.art-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(40, 60, 58, 0.15);
+}
+
+.art-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    display: block;
+}
+
+.art-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+    color: var(--dark-teal);
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.art-item p {
+    line-height: 1.7;
+    color: #666;
+    font-size: 1.05rem;
+}
+
+/* Mood Section */
+.mood-section {
+    padding: 6rem 2rem;
+    background: var(--cream);
+    position: relative;
+}
+
+.mood-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(40, 60, 58, 0.2), transparent);
+}
+
+.section-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+    font-style: italic;
+    color: #666;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    position: relative;
+}
+
+.section-intro::after {
+    content: '🌸';
+    display: block;
+    margin-top: 1rem;
+    opacity: 0.6;
+}
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mood-card {
+    height: 380px;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    text-decoration: none;
+    color: white;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.mood-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(40, 60, 58, 0.85) 0%, transparent 60%);
+    transition: opacity 0.4s ease;
+}
+
+.mood-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+.mood-card:hover::before {
+    opacity: 0.9;
+}
+
+.mood-content {
+    padding: 2.5rem;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.mood-card:hover .mood-content {
+    transform: translateY(0);
+}
+
+.mood-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.mood-content p {
+    font-size: 1rem;
+    opacity: 0.95;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Florist Section */
+.florist-section {
+    padding: 6rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+}
+
+.florist-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    padding: 4rem;
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(40, 60, 58, 0.1);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.florist-image {
+    text-align: center;
+    position: relative;
+}
+
+.florist-image img {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transition: transform 0.4s ease;
+}
+
+.florist-image:hover img {
+    transform: scale(1.03);
+}
+
+.florist-name {
+    margin-top: 1.5rem;
+}
+
+.florist-name h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--dark-teal);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.florist-name p {
+    color: #666;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+.florist-quote {
+    position: relative;
+}
+
+.quote-decoration {
+    font-size: 6rem;
+    color: var(--gold);
+    opacity: 0.2;
+    position: absolute;
+    top: -2rem;
+    left: -1rem;
+    font-family: serif;
+}
+
+.florist-quote h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    color: var(--dark-teal);
+    margin-bottom: 2rem;
+    font-weight: 400;
+    position: relative;
+}
+
+.florist-quote blockquote {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-left: 2rem;
+    border-left: 3px solid var(--gold);
+}
+
+/* Quick Menu */
+.quick-menu {
+    background: linear-gradient(135deg, var(--dark-teal) 0%, #2a4a47 100%);
+    padding: 5rem 2rem;
+    text-align: center;
+}
+
+.quick-menu-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.quick-menu h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.quick-menu h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+    line-height: 1;
+}
+
+.quick-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.quick-btn {
+    background: var(--gold);
+    color: var(--dark-teal);
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: lowercase;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.quick-btn:hover {
+    background: var(--cream);
+    color: var(--dark-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 244, 240, 0.3);
+}
+
+/* Footer */
+.moon-footer {
+    background: var(--dark-teal);
+    color: var(--light-text);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.footer-links a {
+    color: var(--light-text);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .poetic-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .ethereal-button {
+        width: 220px;
+    }
+    
+    .quick-menu h1 {
+        font-size: 2.8rem;
+    }
+    
+    .quick-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quick-btn {
+        width: 220px;
+    }
+    
+    .art-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .art-item {
+        padding: 2.5rem 1.5rem;
+    }
+    
+    .mood-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .mood-card {
+        height: 320px;
+    }
+    
+    .florist-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+        padding: 3rem;
+    }
+    
+    .florist-image {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    .quote-decoration {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .florist-quote blockquote {
+        padding-left: 0;
+        border-left: none;
+        border-top: 3px solid var(--gold);
+        padding-top: 2rem;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .art-section,
+    .mood-section,
+    .florist-section {
+        padding: 4rem 1rem;
+    }
+    
+    .art-item {
+        padding: 2rem 1rem;
+    }
+    
+    .mood-content {
+        padding: 1.5rem;
+    }
+    
+    .mood-content h4 {
+        font-size: 1.6rem;
+    }
+    
+    .florist-content {
+        padding: 1.5rem;
+    }
+    
+    .florist-quote h2 {
+        font-size: 1.8rem;
+    }
+    
+    .florist-quote blockquote {
+        font-size: 1.1rem;
+    }
+}

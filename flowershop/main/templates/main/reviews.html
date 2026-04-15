@@ -1,0 +1,407 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Отзывы - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Отзывы</h1>
+        <p class="poetic-subtitle">
+            <strong>Что говорят наши клиенты</strong><br>
+            Ваше доверие — наша лучшая награда
+        </p>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Мы в цифрах</h2>
+        <div class="art-grid">
+            <div class="art-item">
+                <div class="art-icon">⭐</div>
+                <h3>{{ avg_rating|default:"5.0" }}</h3>
+                <p>Средняя оценка</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">💬</div>
+                <h3>{{ total_reviews|default:"0" }}</h3>
+                <p>Отзывов</p>
+            </div>
+            <div class="art-item">
+                <div class="art-icon">❤️</div>
+                <h3>{{ recommend_percent|default:"100" }}%</h3>
+                <p>Рекомендуют</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Истории наших клиентов</h2>
+        <p class="section-intro">Реальные отзывы от тех, кто уже доверил нам свои особенные моменты</p>
+        
+        {% if reviews %}
+        <div class="reviews-grid">
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">{{ review.name|slice:":1"|upper }}</div>
+                    <div class="review-info">
+                        <h4>{{ review.name }}</h4>
+                        <div class="review-stars">{{ review.get_stars }}</div>
+                    </div>
+                </div>
+                <p class="review-text">"{{ review.text }}"</p>
+                <div class="review-date">{{ review.created_at|date:"d F Y" }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Примеры отзывов если база пуста -->
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">М</div>
+                    <div class="review-info">
+                        <h4>Мария</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Заказывала букет на годовщину свадьбы. Цветы были свежие, доставка вовремя. Муж был в восторге! Обязательно буду заказывать еще."</p>
+                <div class="review-date">15 ноября 2024</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">А</div>
+                    <div class="review-info">
+                        <h4>Александр</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Подарил девушке букет 'Лунная ночь'. Она сказала, что это самый красивый букет, который она когда-либо получала. Спасибо за эмоции!"</p>
+                <div class="review-date">10 ноября 2024</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">Е</div>
+                    <div class="review-info">
+                        <h4>Екатерина</h4>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                </div>
+                <p class="review-text">"Очень понравился сервис. Помогли подобрать букет для мамы на день рождения. Цветы стояли больше недели!"</p>
+                <div class="review-date">5 ноября 2024</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">Д</div>
+                    <div class="review-info">
+                        <h4>Дмитрий</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Заказал авторский букет для жены. Флорист учла все пожелания! Букет превзошел все ожидания. Отличная работа!"</p>
+                <div class="review-date">1 ноября 2024</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">О</div>
+                    <div class="review-info">
+                        <h4>Ольга</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Заказываю цветы в Fleur de Rêve уже третий раз. Каждый раз букеты шикарные и свежие. Очень нравится индивидуальный подход!"</p>
+                <div class="review-date">28 октября 2024</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">И</div>
+                    <div class="review-info">
+                        <h4>Игорь</h4>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                </div>
+                <p class="review-text">"Порадовала быстрая доставка и аккуратная упаковка. Цветы приехали в идеальном состоянии. Рекомендую всем!"</p>
+                <div class="review-date">25 октября 2024</div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Add Review Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Наша команда">
+                <div class="florist-name">
+                    <h4>Наша команда</h4>
+                    <p>Мы ценим каждый ваш отзыв</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">💬</div>
+                <h2>Поделитесь вашим мнением</h2>
+                <blockquote>
+                    "Для нас каждый отзыв — это ценная обратная связь.
+                    Расскажите о вашем опыте покупки букета в Fleur de Rêve.
+                    Публикуем отзывы сразу, если в тексте нет ссылок, спама и ненормативной лексики."
+                </blockquote>
+                
+                <!-- Сообщения -->
+                {% if messages %}
+                <div style="margin-bottom: 1rem;">
+                    {% for message in messages %}
+                    <div style="padding: 15px; border-radius: 12px; margin-bottom: 10px; 
+                                background: {% if message.tags == 'success' %}rgba(107, 142, 107, 0.2){% else %}rgba(212, 175, 55, 0.2){% endif %}; 
+                                border: 1px solid {% if message.tags == 'success' %}#6B8E6B{% else %}var(--gold){% endif %}; 
+                                color: var(--dark-teal);">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Форма отзыва -->
+                <form method="POST" action="{% url 'reviews' %}" class="order-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label>Ваше имя *</label>
+                        <input type="text" name="name" required placeholder="Как вас зовут?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ваш отзыв *</label>
+                        <textarea name="text" required placeholder="Расскажите о вашем опыте..." rows="4"></textarea>
+                        <small style="display:block;margin-top:6px;color:#666;font-size:0.85rem;">Без ссылок, e-mail и оскорблений — иначе отзыв не будет принят.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Оценка</label>
+                        <div class="rating-select">
+                            <input type="radio" name="rating" value="5" id="star5" checked>
+                            <label for="star5">★</label>
+                            <input type="radio" name="rating" value="4" id="star4">
+                            <label for="star4">★</label>
+                            <input type="radio" name="rating" value="3" id="star3">
+                            <label for="star3">★</label>
+                            <input type="radio" name="rating" value="2" id="star2">
+                            <label for="star2">★</label>
+                            <input type="radio" name="rating" value="1" id="star1">
+                            <label for="star1">★</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        Отправить отзыв
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>ПРИСОЕДИНЯЙТЕСЬ К НАМ</h2>
+        <h1>Станьте частью нашей истории</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Выбрать букет</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Заказать авторский</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Сетка отзывов */
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Карточка отзыва */
+.review-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.08);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+    transition: all 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(40, 60, 58, 0.12);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--dark-teal), var(--deep-purple));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.review-info h4 {
+    color: var(--dark-teal);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.review-stars {
+    color: var(--gold);
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.7;
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.review-date {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* Форма */
+.order-form {
+    margin-top: 30px;
+    background: rgba(40, 60, 58, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(40, 60, 58, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--cream);
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    color: var(--dark-teal);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Рейтинг выбор */
+.rating-select {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.rating-select input {
+    display: none;
+}
+
+.rating-select label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.rating-select label:hover,
+.rating-select label:hover ~ label,
+.rating-select input:checked ~ label {
+    color: var(--gold);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.submit-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .review-card {
+        padding: 25px;
+    }
+    
+    .rating-select label {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}

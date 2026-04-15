@@ -1,0 +1,311 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Популярные букеты - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Популярные букеты</h1>
+        <p class="poetic-subtitle">
+            <strong>Самые любимые композиции наших клиентов</strong><br>
+            Те, что дарят радость и восхищение снова и снова
+        </p>
+        <div class="hero-buttons">
+            <a href="#popular-products" class="ethereal-button primary-btn">Смотреть бестселлеры</a>
+            <a href="#stats" class="ethereal-button secondary-btn">Наша статистика</a>
+        </div>
+    </div>
+</section>
+
+<!-- Статистика -->
+<section class="art-section" id="stats">
+    <div class="container">
+        <h2 class="section-title">Мы в цифрах</h2>
+        <p class="section-intro">То, чем мы гордимся и что подтверждает наше качество</p>
+        
+        <div class="stats-grid">
+            <div class="art-item">
+                <div class="art-icon">👥</div>
+                <h3>500+</h3>
+                <p>Довольных клиентов</p>
+            </div>
+            
+            <div class="art-item">
+                <div class="art-icon">⭐</div>
+                <h3>95%</h3>
+                <p>Рекомендуют нас друзьям</p>
+            </div>
+            
+            <div class="art-item">
+                <div class="art-icon">💎</div>
+                <h3>4.9</h3>
+                <p>Средняя оценка</p>
+            </div>
+            
+            <div class="art-item">
+                <div class="art-icon">⏱️</div>
+                <h3>2ч</h3>
+                <p>Среднее время доставки</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Популярные товары -->
+<section class="mood-section" id="popular-products">
+    <div class="container">
+        <h2 class="section-title">Бестселлеры</h2>
+        <p class="section-intro">Эти букеты выбирают чаще всего для особенных моментов</p>
+        
+        <div class="mood-grid">
+            {% for product in popular_products %}
+            <div class="mood-card" style="background-image: linear-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url('{{ product.img }}');">
+                <!-- Бейдж бестселлера -->
+                <div class="best-seller-badge">
+                    ПОПУЛЯРНО
+                </div>
+                
+                <!-- Бейдж акции -->
+                {% if product.original_price %}
+                <div class="sale-badge">
+                    -20%
+                </div>
+                {% endif %}
+                
+                <div class="mood-content">
+                    <h4>{{ product.name }}</h4>
+                    <p>{{ product.description|truncatechars:60 }}</p>
+                    
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span>🎀</span>
+                            {{ product.occasion }}
+                        </div>
+                        <div class="meta-item">
+                            <span>🎨</span>
+                            {{ product.color }}
+                        </div>
+                    </div>
+                    
+                    <div class="product-footer">
+                        <div class="price-section">
+                            {% if product.original_price %}
+                            <div class="price-with-discount">
+                                <span class="original-price">{{ product.original_price }} ₽</span>
+                                <span class="current-price">{{ product.price }} ₽</span>
+                            </div>
+                            {% else %}
+                            <span class="current-price">{{ product.price }} ₽</span>
+                            {% endif %}
+                        </div>
+                        
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
+                            В корзину
+                        </a>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="add-to-cart-btn">
+                            В корзину
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Почему популярны -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Анна, главный флорист Fleur de Rêve">
+                <div class="florist-name">
+                    <h4>Анна</h4>
+                    <p>Главный флорист и основатель</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">💐</div>
+                <h2>Почему эти букеты так популярны?</h2>
+                <blockquote>
+                    "Эти композиции стали бестселлерами не случайно. Каждая из них идеально балансирует между эстетикой, 
+                    эмоциональным посылом и практичностью. Они говорят на универсальном языке красоты, который понимают все. 
+                    Наши клиенты возвращаются к этим букетам, потому что они никогда не разочаровывают."
+                </blockquote>
+                <div class="mt-4">
+                    <a href="{% url 'catalog' %}" class="quick-btn">Посмотреть весь каталог</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Призыв к действию -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>ПОЧУВСТВУЙТЕ ЭТО САМИ</h2>
+        <h1>Присоединяйтесь к нашим довольным клиентам</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Выбрать букет</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Заказать авторский</a>
+            <a href="{% url 'reviews' %}" class="quick-btn">Читать отзывы</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Статистика */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Бейджи */
+.best-seller-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sale-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Мета-информация в карточках */
+.product-meta {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+/* Футер продукта */
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.price-section {
+    text-align: left;
+}
+
+.price-with-discount {
+    display: flex;
+    flex-direction: column;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+}
+
+.current-price {
+    color: white;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.add-to-cart-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 13px;
+    backdrop-filter: blur(5px);
+}
+
+.add-to-cart-btn:hover {
+    background: white;
+    color: var(--dark-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .mood-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .add-to-cart-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .best-seller-badge,
+    .sale-badge {
+        font-size: 10px;
+        padding: 6px 12px;
+        top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .product-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+{% endblock %}

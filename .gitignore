@@ -1,0 +1,36 @@
+# Environment variables (contain secrets)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+*.log
+
+# Binaries
+*.exe
+*.dll
+*.so
+
+# IDE / tools
+.continue/
+.vscode/
+*.code-workspace
+
+# Generated reports / logs
+**/generated_reports/
+**/logs/
+
+# Virtual environments
+venv/
+.venv/
+env/

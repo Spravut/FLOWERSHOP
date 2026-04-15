@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Информация о доставке · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Redirect to main delivery page -->
+<script>window.location.href = "{% url 'delivery' %}";</script>
+<p>Перенаправление на страницу доставки...</p>
+{% endblock %}
+

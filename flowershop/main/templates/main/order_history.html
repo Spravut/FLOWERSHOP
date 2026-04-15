@@ -1,0 +1,190 @@
+{% extends 'main/base.html' %}
+
+{% block title %}История заказов · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">История заказов</h1>
+        <p class="poetic-subtitle">
+            <strong>Все ваши покупки</strong><br>
+            Отслеживайте статус заказов
+        </p>
+    </div>
+</section>
+
+<!-- Orders Section -->
+<section class="mood-section">
+    <div class="container">
+        <h2 class="section-title">Ваши заказы</h2>
+        
+        {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-number">Заказ #{{ order.id }}</span>
+                        <span class="order-date">{{ order.created_at|date:"d.m.Y в H:i" }}</span>
+                    </div>
+                    <span class="order-status status-{{ order.status }}">
+                        {% if order.status == 'new' %}Новый
+                        {% elif order.status == 'processing' %}В обработке
+                        {% elif order.status == 'delivering' %}Доставляется
+                        {% elif order.status == 'completed' %}Выполнен
+                        {% elif order.status == 'cancelled' %}Отменён
+                        {% else %}{{ order.status }}{% endif %}
+                    </span>
+                </div>
+                <div class="order-body">
+                    <div class="order-info">
+                        <p><strong>Получатель:</strong> {{ order.customer_name }}</p>
+                        <p><strong>Телефон:</strong> {{ order.phone }}</p>
+                        <p><strong>Адрес:</strong> {{ order.address }}</p>
+                        <p><strong>Дата доставки:</strong> {{ order.delivery_date|date:"d.m.Y" }} {{ order.delivery_time }}</p>
+                        {% if order.wishes %}
+                        <p><strong>Пожелания:</strong> {{ order.wishes }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="order-total">
+                        <span class="total-label">Сумма заказа:</span>
+                        <span class="total-value">{{ order.total_price }} ₽</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 4rem 2rem;">
+            <div style="font-size: 5rem; margin-bottom: 1.5rem;">📦</div>
+            <h3 style="color: var(--dark-teal); font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 1rem;">
+                У вас пока нет заказов
+            </h3>
+            <p style="color: #666; margin-bottom: 2rem; font-size: 1.1rem;">
+                Самое время порадовать себя или близких прекрасным букетом!
+            </p>
+            <a href="{% url 'catalog' %}" class="quick-btn" style="display: inline-block;">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>НАВИГАЦИЯ</h2>
+        <h1>Куда вы хотите перейти?</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'profile' %}" class="quick-btn">Личный кабинет</a>
+            <a href="{% url 'catalog' %}" class="quick-btn">Каталог</a>
+            <a href="{% url 'cart' %}" class="quick-btn">Корзина</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.orders-list {
+    display: grid;
+    gap: 25px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.order-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.08);
+    border: 1px solid rgba(40, 60, 58, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: rgba(40, 60, 58, 0.03);
+    border-bottom: 1px solid rgba(40, 60, 58, 0.1);
+}
+
+.order-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.order-date {
+    display: block;
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.order-status {
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-new { background: rgba(212, 175, 55, 0.15); color: #8B7355; }
+.status-processing { background: rgba(59, 130, 246, 0.15); color: #3B82F6; }
+.status-delivering { background: rgba(168, 85, 247, 0.15); color: #A855F7; }
+.status-completed { background: rgba(34, 197, 94, 0.15); color: #22C55E; }
+.status-cancelled { background: rgba(239, 68, 68, 0.15); color: #EF4444; }
+
+.order-body {
+    padding: 25px;
+}
+
+.order-info p {
+    margin: 10px 0;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.order-info strong {
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid var(--gold);
+}
+
+.total-label {
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.total-value {
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+@media (max-width: 768px) {
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+</style>
+{% endblock %}
+

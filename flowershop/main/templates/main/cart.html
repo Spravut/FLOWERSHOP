@@ -1,0 +1,363 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Корзина · Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Корзина</h1>
+        <p class="poetic-subtitle">
+            <strong>Ваши выбранные букеты</strong><br>
+            {% if cart_items %}{{ cart_items|length }} товар(ов) на сумму {{ total }} ₽{% else %}Пока пуста{% endif %}
+        </p>
+    </div>
+</section>
+
+{% if cart_items %}
+<!-- Cart Items Section -->
+<section class="art-section">
+    <div class="container">
+        <h2 class="section-title">Товары в корзине</h2>
+        
+        <div class="cart-items-list">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                </div>
+                
+                <div class="cart-item-info">
+                    <h3>{{ item.product.name }}</h3>
+                    <p>{{ item.product.description|truncatewords:15 }}</p>
+                    <div class="item-price">{{ item.product.price }} ₽</div>
+                </div>
+                
+                <div class="cart-item-controls">
+                    <form method="post" action="{% url 'update_cart' item.id %}" class="quantity-form">
+                        {% csrf_token %}
+                        <label>Количество:</label>
+                        <div class="quantity-wrapper">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                            <button type="submit" class="update-btn">Обновить</button>
+                        </div>
+                    </form>
+                    
+                    <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn">
+                        Удалить
+                    </a>
+                </div>
+                
+                <div class="cart-item-total">
+                    <span class="total-label">Сумма:</span>
+                    <span class="total-value">{{ item.product.price }} × {{ item.quantity }} ₽</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Cart Summary Section -->
+<section class="florist-section">
+    <div class="container">
+        <div class="cart-summary-wrapper">
+            <div class="cart-summary">
+                <h3>Итого</h3>
+                <div class="summary-row">
+                    <span>Товары ({{ cart_items|length }}):</span>
+                    <span>{{ total }} ₽</span>
+                </div>
+                <div class="summary-row">
+                    <span>Доставка:</span>
+                    <span class="delivery-note">Рассчитывается при оформлении</span>
+                </div>
+                <div class="summary-total">
+                    <span>К оплате:</span>
+                    <span class="grand-total">{{ total }} ₽</span>
+                </div>
+                <a href="{% url 'checkout' %}" class="checkout-btn">
+                    Оформить заказ
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% else %}
+<!-- Empty Cart Section -->
+<section class="mood-section">
+    <div class="container">
+        <div class="empty-cart">
+            <div class="empty-cart-icon">🛒</div>
+            <h2>Ваша корзина пуста</h2>
+            <p>Самое время выбрать прекрасный букет для себя или близких!</p>
+            <a href="{% url 'catalog' %}" class="quick-btn">Перейти в каталог</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="quick-menu">
+    <div class="quick-menu-content">
+        <h2>НУЖНА ПОМОЩЬ?</h2>
+        <h1>Мы подберём идеальный букет</h1>
+        <div class="quick-buttons">
+            <a href="{% url 'catalog' %}" class="quick-btn">Каталог</a>
+            <a href="{% url 'custom_bouquet' %}" class="quick-btn">Авторский букет</a>
+            <a href="{% url 'contacts' %}" class="quick-btn">Связаться</a>
+        </div>
+    </div>
+</section>
+
+<style>
+.cart-items-list {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto auto;
+    gap: 25px;
+    align-items: center;
+    padding: 25px;
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(40, 60, 58, 0.06);
+    border: 1px solid rgba(40, 60, 58, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(40, 60, 58, 0.1);
+}
+
+.cart-item-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item-info h3 {
+    color: var(--dark-teal);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.cart-item-info p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.item-price {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.cart-item-controls {
+    text-align: center;
+}
+
+.quantity-form {
+    margin-bottom: 15px;
+}
+
+.quantity-form label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.quantity-wrapper {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.quantity-wrapper input {
+    width: 60px;
+    padding: 8px;
+    border: 2px solid rgba(40, 60, 58, 0.15);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.quantity-wrapper input:focus {
+    outline: none;
+    border-color: var(--gold);
+}
+
+.update-btn {
+    padding: 8px 15px;
+    background: var(--dark-teal);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.update-btn:hover {
+    background: #1e2d2b;
+}
+
+.remove-btn {
+    color: #e74c3c;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.3s ease;
+}
+
+.remove-btn:hover {
+    opacity: 0.7;
+}
+
+.cart-item-total {
+    text-align: right;
+}
+
+.total-label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.total-value {
+    color: var(--dark-teal);
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.cart-summary-wrapper {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.cart-summary {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 40px rgba(40, 60, 58, 0.1);
+    border: 2px solid var(--gold);
+}
+
+.cart-summary h3 {
+    color: var(--dark-teal);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(40, 60, 58, 0.1);
+    color: #666;
+}
+
+.delivery-note {
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    margin-top: 15px;
+    font-size: 1.2rem;
+    color: var(--dark-teal);
+    font-weight: 500;
+}
+
+.grand-total {
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    text-decoration: none;
+    text-align: center;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-cart-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+}
+
+.empty-cart h2 {
+    color: var(--dark-teal);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.empty-cart p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .cart-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .cart-item-image {
+        margin: 0 auto;
+    }
+    
+    .cart-item-total {
+        text-align: center;
+    }
+    
+    .quantity-wrapper {
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}

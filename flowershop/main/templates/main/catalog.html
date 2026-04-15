@@ -1,0 +1,514 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Каталог букетов - Fleur de Rêve{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(rgba(40, 60, 58, 0.7), rgba(69, 52, 79, 0.7)), url('https://i.pinimg.com/736x/2c/f3/53/2cf3533fe98bccb10a8dbf1ae307d6b7.jpg') center/cover;">
+    <div class="hero-content">
+        <h1 class="poetic-title">Коллекция букетов</h1>
+        <p class="poetic-subtitle">
+            <strong>Найдите идеальную композицию</strong> для вашего особенного момента<br>
+            Каждый букет — это история, написанная цветами
+        </p>
+        <div class="hero-buttons">
+            <a href="#products" class="ethereal-button primary-btn">Исследовать коллекцию</a>
+            <a href="#filters" class="ethereal-button secondary-btn">Подобрать по фильтру</a>
+        </div>
+    </div>
+</section>
+
+<!-- Фильтры -->
+<section class="philosophy-section" id="filters">
+    <div class="container">
+        <h2>Найдите свой идеальный букет</h2>
+        
+        <!-- Сообщения -->
+        {% if messages %}
+        <div class="messages" style="margin-bottom: 30px;">
+            {% for message in messages %}
+            <div class="alert alert-success" style="padding: 15px; background: #d4edda; color: #155724; border-radius: 8px; margin-bottom: 10px;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="filters-form">
+            <form method="GET" action="{% url 'catalog' %}">
+                <div class="filters-grid">
+                    <!-- Поиск -->
+                    <div class="filter-group">
+                        <label>Поиск</label>
+                        <input type="text" name="search" value="{{ search_query }}" placeholder="Название букета..." 
+                               class="form-input">
+                    </div>
+                    
+                    <!-- Категория -->
+                    <div class="filter-group">
+                        <label>Категория</label>
+                        <select name="category" class="form-select">
+                            <option value="">Все категории</option>
+                            {% for category in categories %}
+                            <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Повод -->
+                    <div class="filter-group">
+                        <label>Повод</label>
+                        <select name="occasion" class="form-select">
+                            <option value="">Любой повод</option>
+                            {% for occasion in occasions %}
+                            <option value="{{ occasion }}" {% if occasion == selected_occasion %}selected{% endif %}>{{ occasion }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Цвет -->
+                    <div class="filter-group">
+                        <label>Цвет</label>
+                        <select name="color" class="form-select">
+                            <option value="">Любой цвет</option>
+                            {% for color in colors %}
+                            <option value="{{ color }}" {% if color == selected_color %}selected{% endif %}>{{ color }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Кнопка -->
+                    <div class="filter-group">
+                        <button type="submit" class="filter-button">
+                            Применить фильтры
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Сброс фильтров -->
+            {% if selected_category or selected_occasion or selected_color or search_query %}
+            <div class="reset-filters">
+                <a href="{% url 'catalog' %}" class="reset-button">
+                    ✕ Сбросить все фильтры
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Сетка товаров -->
+<section class="art-section" id="products">
+    <div class="container">
+        <h2 class="section-title">
+            {% if products %}
+                Найдено {{ products|length }} букетов
+            {% else %}
+                Букеты не найдены
+            {% endif %}
+        </h2>
+        <p class="section-intro">Выберите эмоцию, которую хотите подарить</p>
+
+        <div class="art-grid">
+            {% for product in products %}
+            <div class="art-item product-card">
+                <!-- Бейдж акции -->
+                {% if product.original_price %}
+                <div class="sale-badge">
+                    -{{ product.original_price|add:product.price }}%
+                </div>
+                {% endif %}
+                
+                <!-- Изображение -->
+                <div class="product-image">
+                    <img src="{{ product.img }}" alt="{{ product.name }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                </div>
+                
+                <!-- Контент -->
+                <div class="product-content">
+                    <!-- Категория -->
+                    <div class="product-category">
+                        {{ product.category }}
+                    </div>
+                    
+                    <!-- Название -->
+                    <h3>{{ product.name }}</h3>
+                    
+                    <!-- Описание -->
+                    <p>{{ product.description|truncatechars:80 }}</p>
+                    
+                    <!-- Мета-информация -->
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <span>🎀</span>
+                            {{ product.occasion }}
+                        </div>
+                        <div class="meta-item">
+                            <span>🎨</span>
+                            {{ product.color }}
+                        </div>
+                    </div>
+                    
+                    <!-- Цена и кнопка -->
+                    <div class="product-footer">
+                        <div class="price-section">
+                            {% if product.original_price %}
+                            <div class="price-with-discount">
+                                <span class="original-price">{{ product.original_price }} ₽</span>
+                                <span class="current-price">{{ product.price }} ₽</span>
+                            </div>
+                            {% else %}
+                            <span class="current-price">{{ product.price }} ₽</span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Кнопка в корзину -->
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
+                            В корзину
+                        </a>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="add-to-cart-btn">
+                            В корзину
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Если товаров нет -->
+            <div class="no-products">
+                <div class="no-products-icon">🌼</div>
+                <h3>Букеты не найдены</h3>
+                <p>Попробуйте изменить параметры фильтрации или выбрать другую категорию</p>
+                <a href="{% url 'catalog' %}" class="show-all-btn">
+                    Показать все букеты
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Информация -->
+<section class="florist-section">
+    <div class="container">
+        <div class="florist-content">
+            <div class="florist-image">
+                <img src="https://img.freepik.com/premium-photo/girl-working-florist-shop_274679-468.jpg" alt="Анна, главный флорист Fleur de Rêve">
+                <div class="florist-name">
+                    <h4>Анна</h4>
+                    <p>Главный флорист и основатель</p>
+                </div>
+            </div>
+            <div class="florist-quote">
+                <div class="quote-decoration">💐</div>
+                <h2>Совет флориста</h2>
+                <blockquote>
+                    "При выборе букета ориентируйтесь не только на внешний вид, но и на ощущения. 
+                    Какие эмоции должен вызывать этот букет? Что вы хотите сказать его получателю? 
+                    Если сомневаетесь — напишите нам, и мы поможем подобрать идеальный вариант."
+                </blockquote>
+                <div class="mt-4">
+                    <a href="{% url 'custom_bouquet' %}" class="quick-btn">Заказать консультацию</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Фильтры */
+.filters-form {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.filter-group {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--dark-teal);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-input, .form-select {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(40, 60, 58, 0.2);
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.filter-button {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.filter-button:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+}
+
+.reset-filters {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.reset-button {
+    color: var(--dark-teal);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: 1px solid rgba(40, 60, 58, 0.3);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.reset-button:hover {
+    background: rgba(40, 60, 58, 0.1);
+}
+
+/* Карточки товаров */
+.product-card {
+    padding: 0;
+    overflow: hidden;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(40, 60, 58, 0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-category {
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    color: var(--dark-teal);
+    line-height: 1.3;
+    min-height: 3.2em;
+}
+
+.product-card p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.product-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #777;
+    background: rgba(40, 60, 58, 0.05);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price-with-discount {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #777;
+    font-size: 14px;
+}
+
+.current-price {
+    color: var(--dark-teal);
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+.add-to-cart-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.add-to-cart-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+    color: var(--dark-teal);
+}
+
+.sale-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Нет товаров */
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.no-products-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: var(--gold);
+}
+
+.no-products h3 {
+    color: var(--dark-teal);
+    margin-bottom: 15px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+}
+
+.no-products p {
+    color: #666;
+    margin-bottom: 30px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.show-all-btn {
+    padding: 14px 30px;
+    background: var(--gold);
+    color: var(--dark-teal);
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.show-all-btn:hover {
+    background: #e0b830;
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .art-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .product-card {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .product-footer {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .add-to-cart-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
+{% endblock %}
