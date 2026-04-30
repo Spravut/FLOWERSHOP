@@ -1,0 +1,3 @@
+# Test dependencies for the reviews microservice
+pytest>=7.4
+httpx>=0.24

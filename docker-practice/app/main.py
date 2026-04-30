@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal, Optional
@@ -13,10 +14,18 @@ from app import crud, models, schemas
 from app.database import SessionLocal, get_db
 from app.review_validation import validate_review_text
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    seed_demo_data()
+    yield
+
+
 app = FastAPI(
     title="Fleur de Reve - Reviews and Ratings",
     description="Отзывы с автопроверкой (ссылки, спам, ненормативная лексика) и сводкой рейтинга.",
     version="1.1.0",
+    lifespan=lifespan,
 )
 
 LOG_DIR = Path(__file__).resolve().parent / "logs"
@@ -123,11 +132,6 @@ def seed_demo_data() -> None:
         db.close()
 
 
-@app.on_event("startup")
-def on_startup() -> None:
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    seed_demo_data()
-
 
 @app.get("/")
 def root():
@@ -168,7 +172,7 @@ def read_reviews(
 def create_review(review: schemas.ReviewCreate, db: Session = Depends(get_db)):
     error_msg = validate_review_text(name=review.name, text=review.text)
     if error_msg:
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=error_msg)
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT, detail=error_msg)
     return crud.create_review(db, review, is_approved=True)
 
 
