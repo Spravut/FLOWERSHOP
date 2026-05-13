@@ -25,10 +25,19 @@ staticfiles/
 .continue/
 .vscode/
 *.code-workspace
+CLAUDE.md
+.claude/
 
 # Generated reports / logs
 **/generated_reports/
 **/logs/
+
+# Test / coverage artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
 
 # Virtual environments
 venv/

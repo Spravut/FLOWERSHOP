@@ -39,7 +39,7 @@
 | `django` | `./flowershop` | 8002:8000 | Монолит Django |
 | `reviews-service` | `./docker-practice` | 8000:8000 | Микросервис отзывов (FastAPI + PostgreSQL) |
 | `reviews-db` | `postgres:15` | 5432:5432 | БД для отзывов |
-| `notification-service` | `./notification-service2` | 8001:8000 | Микросервис уведомлений (FastAPI + PostgreSQL) |
+| `notification-service` | `./notification-service` | 8001:8000 | Микросервис уведомлений (FastAPI + PostgreSQL) |
 | `notification-db` | `postgres:15-alpine` | 5433:5432 | БД для уведомлений |
 
 Переменные окружения Django:
@@ -356,7 +356,7 @@ status_map = {
 
 ### 12.1. Когда стартует consumer
 
-В `notification-service2/app/main.py`:
+В `notification-service/app/main.py`:
 
 ```python
 @asynccontextmanager
@@ -370,7 +370,7 @@ async def lifespan(app: FastAPI):
 
 ### 12.2. `run_nats_consumer()` в `nats_consumer.py`
 
-Файл `notification-service2/app/nats_consumer.py`.
+Файл `notification-service/app/nats_consumer.py`.
 
 **Константы:**
 
@@ -460,7 +460,7 @@ CONSUMER_NAME = "notification-service"
 |--------|------|
 | Новый HTTP-эндпоинт в Reviews | `docker-practice/app/main.py` + `crud.py` + `schemas.py` |
 | Новый вызов Reviews из Django | `flowershop/main/reviews_client.py` + `views.py` |
-| Новое поле в событии NATS | `flowershop/main/nats_events.py` + `notification-service2/app/nats_consumer.py` |
+| Новое поле в событии NATS | `flowershop/main/nats_events.py` + `notification-service/app/nats_consumer.py` |
 | Новый тип события NATS | Новый subject + добавить маску в `subjects` stream (если не входит в `flowershop.orders.>`) |
 | Другой микросервис-подписчик | Новый consumer / новая durable-группа, тот же stream или другой subject |
 
@@ -472,4 +472,4 @@ CONSUMER_NAME = "notification-service"
 
 ---
 
-*Документ соответствует коду в репозитории `docker-flowershop`: Django (`main/reviews_client.py`, `main/nats_events.py`, `main/signals.py`, `main/views.py`), Reviews Service (`docker-practice/app/main.py`), Notification Service (`notification-service2/app/nats_consumer.py`, `notification-service2/app/main.py` lifespan).*
+*Документ соответствует коду в репозитории `docker-flowershop`: Django (`main/reviews_client.py`, `main/nats_events.py`, `main/signals.py`, `main/views.py`), Reviews Service (`docker-practice/app/main.py`), Notification Service (`notification-service/app/nats_consumer.py`, `notification-service/app/main.py` lifespan).*

@@ -10,9 +10,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: reviews-service
+            path: docker-practice
+            extra-requirements: requirements-test.txt
+          - service: notification-service
+            path: notification-service
+            extra-requirements: ""
+
+    name: ${{ matrix.service }}
+
     defaults:
       run:
-        working-directory: docker-practice
+        working-directory: ${{ matrix.path }}
 
     steps:
       - name: Checkout code
@@ -26,7 +39,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install -r requirements-test.txt
+          if [ -n "${{ matrix.extra-requirements }}" ]; then
+            pip install -r ${{ matrix.extra-requirements }}
+          fi
 
       - name: Run tests
         run: python -m pytest -v

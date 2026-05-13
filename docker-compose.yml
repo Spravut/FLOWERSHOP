@@ -57,7 +57,7 @@ services:
 
   notification-service:
     build:
-      context: ./notification-service2
+      context: ./notification-service
       dockerfile: dockerfile
     container_name: flowershop_notification_service
     ports:
@@ -70,7 +70,7 @@ services:
       DB_PORT: "5432"
       NATS_URL: nats://nats:4222
     volumes:
-      - ./notification-service2:/app
+      - ./notification-service:/app
     depends_on:
       notification-db:
         condition: service_healthy

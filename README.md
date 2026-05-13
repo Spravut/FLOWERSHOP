@@ -6,7 +6,7 @@
 |--------|-----------|-------------|------|
 | **Django Monolith** (flowershop) | Django 5.0 | — | `8002` |
 | **Reviews Service** (docker-practice) | FastAPI | **HTTP REST** | `8000` |
-| **Notification Service** (notification-service2) | FastAPI | **NATS JetStream** (брокер сообщений) | `8001` |
+| **Notification Service** (notification-service) | FastAPI | **NATS JetStream** (брокер сообщений) | `8001` |
 
 ---
 
@@ -44,7 +44,7 @@ docker-flowershop/
 │       ├── database.py             # Подключение к PostgreSQL
 │       └── review_validation.py    # Автопроверка отзывов
 │
-└── notification-service2/          # Микросервис уведомлений (Notification)
+└── notification-service/          # Микросервис уведомлений (Notification)
     ├── dockerfile
     ├── requirements.txt
     ├── alembic/                    # Миграции БД
@@ -478,7 +478,7 @@ class MainConfig(AppConfig):
 
 #### 6. Notification Service: NATS consumer
 
-**Файл:** [`notification-service2/app/nats_consumer.py`](notification-service2/app/nats_consumer.py:1)
+**Файл:** [`notification-service/app/nats_consumer.py`](notification-service/app/nats_consumer.py:1)
 
 Этот модуль — **подписчик** (consumer). Он работает в фоне и слушает сообщения из NATS.
 
@@ -571,7 +571,7 @@ async def run_nats_consumer():
 
 #### 7. Notification Service: запуск consumer при старте
 
-**Файл:** [`notification-service2/app/main.py`](notification-service2/app/main.py:44)
+**Файл:** [`notification-service/app/main.py`](notification-service/app/main.py:44)
 
 ```python
 @asynccontextmanager
