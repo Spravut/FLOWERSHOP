@@ -5,7 +5,6 @@ import json
 import logging
 import os
 import uuid
-from datetime import datetime, timedelta, timezone
 
 from app.database import get_sessionmaker
 from app.models import Notification, NotificationChannel, OrderStatus

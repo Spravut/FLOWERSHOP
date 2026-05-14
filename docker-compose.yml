@@ -58,7 +58,7 @@ services:
   notification-service:
     build:
       context: ./notification-service
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: flowershop_notification_service
     ports:
       - "8001:8000"

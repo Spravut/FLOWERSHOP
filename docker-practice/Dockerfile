@@ -10,9 +10,8 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# During development the source code is mounted via bind mount.
-# For production you can uncomment the next line.
-# COPY . .
+# Copy application source (compose can override with a bind mount for dev)
+COPY . .
 
 # Default command (can be overridden by docker-compose)
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
