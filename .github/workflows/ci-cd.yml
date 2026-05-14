@@ -119,3 +119,29 @@ jobs:
           echo "Deploy step (placeholder — wire up to a real environment when ready)"
           echo "  ${BASE}/reviews-service:${{ github.sha }}"
           echo "  ${BASE}/notification-service:${{ github.sha }}"
+
+  notify:
+    name: notify
+    needs: [test, build-and-push, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Telegram notification
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            *${{ github.workflow }}* — `${{ github.repository }}`
+
+            • test: `${{ needs.test.result }}`
+            • build-and-push: `${{ needs.build-and-push.result }}`
+            • deploy: `${{ needs.deploy.result }}`
+
+            Branch: `${{ github.ref_name }}`
+            Author: `${{ github.actor }}`
+            Commit: ${{ github.event.head_commit.message || github.event.pull_request.title }}
+
+            [Open run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
